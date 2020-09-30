@@ -1,0 +1,54 @@
+:root {
+    --box-background-color: grey;
+    --box-background-color-success: green;
+    --box-container-backround-color: blue;
+    --box-units: 4;
+}   
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* text-align: center; */
+    /* min-height: 100vh; */
+    height: 100%;
+    /* background-color: blue; */
+}
+
+#boxUnitsInput {
+    margin: 0.5em;
+    width: 10vmin;
+}
+
+.container {
+    width: 60vh;
+    max-height: 60%;
+    max-width: 60%;
+    display: grid;
+    grid-template-columns: repeat(var(--box-units), 1fr);
+    grid-template-rows: repeat(--box-units, 1fr);
+    grid-gap: 0.5em;
+    grid-auto-rows: repeat(--box-units, 1fr);
+}
+
+.box {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    background-color: var(--box-background-color);
+    text-align: center;
+    font-size: 5vmin;
+    /* vertical-align: middle; */
+    border-radius: 0.5em;
+}
+
+.box-success {
+    background-color: var(--box-background-color-success);
+}
