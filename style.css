@@ -62,3 +62,7 @@ html, body {
 .newGameButton {
     margin: 30px;
 }
+
+.resetGameButton {
+    margin: 10px;
+}
