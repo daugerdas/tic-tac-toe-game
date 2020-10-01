@@ -10,36 +10,54 @@
 // check results after each turn (check for reaccuring symbols or have patterns)
 // expand board
 
-const root = document.documentElement;
-const htmlBodyDiv = document.querySelector("body");
-const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame");
+class GameBoard {
+    constructor() {
+        this.gameInstances = [];
+        this.numberOfGames = 0;
+    }
+
+    createNewTicTacToeGame() {
+        const randomNumber = Math.floor(Math.random() * 5) + 3;
+        this.numberOfGames++;
+        this.gameInstances.push(new TicTacToe(randomNumber, this.numberOfGames));
+        this.updateGridSize();
+    }
+
+    updateGridSize() {
+        ticTacToeBodyDiv.style.gridTemplateColumns = `repeat(${Math.round(Math.sqrt(this.numberOfGames) + 1)}, 1fr)`;
+    }
+}
 
 class TicTacToe {
-
     constructor (lineSize, id) {
-        // public class fields not supported in Safari so defined here
-        this.gameOutput;
-        this.ameContainer;
-        this.inputNumberBox;
-        this.bodyWrapper;
         this.isGameStarted = true;
-        this.id = id;
-        this.lineSize = lineSize;
-        this.currentPlayerId = 0; // "0" - first player; "1" - second player
-        this.arrayOfStreak = [];
-        this.board = [];
+        this.id = id; //gameID
+        this.lineSize = lineSize; //number of tiles/boxes in each row and column
+        this.numberOfCells; //variable to store total number of boxes (lineSize*lineSize)
+        this.currentPlayerID = 0; // "0" - first player; "1" - second player
+
+        this.bodyWrapper; //wrapper div that containes both gameContainer and inputNumberBox
+        this.gameContainer; //container div for storing x*x tiles/boxes of the game
+        this.inputNumberBox; //input div box for each board
+        this.resetGameButton;
+
+        this.gameOutput = []; //array that keeps track of divs that have X and O in the UI
+        this.arrayOfStreak = []; //array for storing indexes of boxes with winning streak
+        this.board = []; //array that keeps track of the actual X and O
+
         this.createNewBoard();
     }
 
     createNewBoard() {
+        //create new wrapper div for this specific game
         let newBodyWrapper = document.createElement("div");
         newBodyWrapper.classList.add("wrapper");
         ticTacToeBodyDiv.appendChild(newBodyWrapper);
         this.bodyWrapper = newBodyWrapper;
 
+        //create input box for this specific div with correct attribbutes
         let newInputBox = document.createElement("input");
         newInputBox.classList.add("boxUnitsInput");
-        
         newInputBox.setAttribute("type", "number");
         newInputBox.setAttribute("placeholder", "4");
         newInputBox.setAttribute("min", "3");
@@ -49,21 +67,31 @@ class TicTacToe {
         this.inputNumberBox = newInputBox;
         this.bodyWrapper.appendChild(this.inputNumberBox);
 
+        let newResetGameButton = document.createElement("button");
+        newResetGameButton.textContent = "Reset game";
+        newResetGameButton.classList.add("resetGameButton");
+        this.resetGameButton = newResetGameButton;
+        this.bodyWrapper.appendChild(this.resetGameButton);
+
+        //create container for tiles/boxes to be used later to add boxes
         let newContainer = document.createElement("div");
         newContainer.classList.add("container");
         this.gameContainer = newContainer;
         this.bodyWrapper.appendChild(this.gameContainer);
 
+        //add event listeners to handle clicks for this specific game
         this.gameContainer.addEventListener("click", this.handleTurn.bind(this));
         this.inputNumberBox.addEventListener("change", this.handleBoxUnits.bind(this));
+        this.resetGameButton.addEventListener("click", this.resetGame.bind(this));
+
 
         this.createBoard();
     }
 
     createBoard() {
-        this.numberOfCells = this.lineSize * this.lineSize;
+        this.numberOfCells = this.lineSize * this.lineSize; //do calculations each time there is a change in lineSize
         this.board = [];
-        this.gameContainer.style.gridTemplateColumns = `repeat(${this.lineSize}, 1fr)`;
+        this.gameContainer.style.gridTemplateColumns = `repeat(${this.lineSize}, 1fr)`; //adjust grid value to have a correct square UI
 
         for (let i = 0; i < this.numberOfCells; i++) {
             this.board[i] = "";
@@ -78,18 +106,17 @@ class TicTacToe {
     }
 
     handleTurn(event) {
-        console.log(this, this.id);
-        let clickedBox = event.target.dataset.id;
-        console.log(this.gameOutput, this.id);
-        if (this.board[clickedBox] == "" && this.isGameStarted) {
-            this.board[clickedBox] = this.currentPlayerId === 0 ? "O" : "X";
-            console.log(this.board);
-            this.currentPlayerId = this.currentPlayerId === 0 ? 1 : 0;
-            this.gameOutput[clickedBox].textContent = this.board[clickedBox];
-            if (thereIsWinningStreak(this)) {
-                this.isGameStarted = false;
-                console.log((this.currentPlayerId === 1 ? "O" : "X") + " won");
-                this.arrayOfStreak.forEach((element) =>
+        let clickedBoxID = event.target.dataset.id; //get id of the clicked box
+
+        if (this.board[clickedBoxID] == "" && this.isGameStarted) { //check if the box is empty and the game has not ended yet
+            this.board[clickedBoxID] = this.currentPlayerID === 0 ? "O" : "X"; //add current player symbol to the board array
+            this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID]; //add current player symbol to the UI
+            this.currentPlayerID = this.currentPlayerID === 0 ? 1 : 0; //change current player so other can take turn
+
+            if (this.thereIsWinningStreak(this)) { //check if any users made winning streak
+                this.isGameStarted = false; //set the game state to end
+                // add class with different styling to the boxes of winning streak
+                this.arrayOfStreak.forEach((element) => 
                     this.gameOutput[element].classList.add("box-success")
                 );
             }
@@ -97,116 +124,100 @@ class TicTacToe {
     }
     
     handleBoxUnits({ target }) {
-        this.lineSize = parseInt(target.value, "10");
-        console.log(target.value, "10");
-        console.log(this.lineSize);
-        this.gameContainer.textContent = "";
-        console.log(this.bodyWrapper);
-        this.createBoard();
-    }
-}
-
-
-class GameBoard {
-    constructor() {
-        this.gameInstances = [];
-        this.numberOfGames = 0;
+        this.lineSize = parseInt(target.value, "10"); //get integer from the input box
+        this.resetGame();
     }
 
-    createNewGame() {
-        const randomNumber = Math.floor(Math.random() * 5) + 3;
-        this.numberOfGames++;
-        this.gameInstances.push = new TicTacToe(randomNumber, this.numberOfGames);
-        console.log(this.gameInstances);
-        this.updateGridSize();
+    resetGame() {
+        this.gameContainer.textContent = ""; // erase current game container
+        this.createBoard(); //fill current game container
     }
 
-    updateGridSize() {
-        ticTacToeBodyDiv.style.gridTemplateColumns = `repeat(${Math.round(Math.sqrt(this.numberOfGames) + 1)}, 1fr)`;
-        console.log(Math.round(Math.sqrt(this.numberOfGames) + 1));
+    thereIsWinningStreak() {
+        return this.checkHorizontally() || this.checkVertically() || this.checkDiagonally();
     }
-
-}
-
-let ticTacToeBoard = new GameBoard();
-document.querySelector(".newGameButton").addEventListener("click", ticTacToeBoard.createNewGame.bind(ticTacToeBoard));
-
-function thereIsWinningStreak(game) {
-    return checkHorizontally(game) || checkVertically(game) || checkDiagonally(game);
-}
-
-function arrayValuesEqual(array, i, element) {
-    return element == array[i] && array[i] != "";
-}
-
-function checkHorizontally(game) {
-    for (let i = 0; i < game.numberOfCells; i += game.lineSize) {
+    
+    arrayValuesEqual(array, i, element) {
+        return element == array[i] && array[i] != "";
+    }
+    
+    checkHorizontally() {
+        for (let i = 0; i < this.numberOfCells; i += this.lineSize) {
+            if (
+                this.board
+                .slice(i, i + this.lineSize)
+                .every((element) => this.arrayValuesEqual(this.board, i, element))
+            ) {
+                //caclulate indexes of boxes that contain the streak
+                let temp = i;
+                this.board
+                .slice(i, i + this.lineSize)
+                .forEach(element => this.arrayOfStreak.push(temp++));
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    checkVertically() {
+        for (let i = 0; i < this.lineSize; i++) {
+            if (
+                this.board
+                .filter((element, index) => (index - i) % this.lineSize == 0)
+                .every((element) => this.arrayValuesEqual(this.board, i, element))
+            ) {
+                //caclulate indexes of boxes that contain the streak
+                this.arrayOfStreak = this.board
+                .map((element, index) => ((index - i) % this.lineSize == 0) ? index : null)
+                .filter(element => element);
+                if (i == 0) this.arrayOfStreak.unshift(0);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    checkDiagonally() {
+        // check from top left to bottom right
         if (
-            game.board
-            .slice(i, i + game.lineSize)
-            .every((element) => arrayValuesEqual(game.board, i, element))
+            this.board
+            .filter((element, index) => index % (this.lineSize + 1) == 0 || index == 0)
+            .every((element) => this.arrayValuesEqual(this.board, 0, element))
         ) {
-            let temp = i;
-            game.board
-            .slice(i, i + game.lineSize)
-            .forEach(element => game.arrayOfStreak.push(temp++));
+             //caclulate indexes of boxes that contain the streak
+             this.arrayOfStreak = this.board
+                 .map((element, index) => (index % (this.lineSize + 1) == 0 || index == 0) ? index : null)
+                 .filter(element => element);
+             this.arrayOfStreak.unshift(0);
             return true;
         }
-    }
-    return false;
-}
-
-function checkVertically(game) {
-    for (let i = 0; i < game.lineSize; i++) {
+        // check from top right to bottom left
         if (
-            game.board
-            .filter((element, index) => (index - i) % game.lineSize == 0)
-            .every((element) => arrayValuesEqual(game.board, i, element))
+            this.board
+            .filter(
+                (element, index) =>
+                index % (this.lineSize - 1) == 0 &&
+                index != 0 &&
+                index != this.numberOfCells - 1
+            )
+            .every((element) => this.arrayValuesEqual(this.board, this.lineSize - 1, element))
         ) {
-            console.log(game.board
-                .map((element, index) => ((index - i) % game.lineSize == 0) ? index : null));
-            game.arrayOfStreak = game.board
-            .map((element, index) => ((index - i) % game.lineSize == 0) ? index : null)
+            this.arrayOfStreak = this.board
+            .map((element, index) => (            
+                index % (this.lineSize - 1) == 0 &&
+                index != 0 &&
+                index != this.numberOfCells - 1
+            ) ? index : null )
             .filter(element => element);
-            if (i == 0) game.arrayOfStreak.unshift(0);
             return true;
         }
+        return false;
     }
-    return false;
 }
 
-function checkDiagonally(game) {
-    // check from top left to bottom right
-    if (
-        game.board
-        .filter((element, index) => index % (game.lineSize + 1) == 0 || index == 0)
-        .every((element) => arrayValuesEqual(game.board, 0, element))
-    ) {
-        return true;
-    }
-    // check from top right to bottom left
-    if (
-        game.board
-        .filter(
-            (element, index) =>
-            index % (game.lineSize - 1) == 0 &&
-            index != 0 &&
-            index != game.numberOfCells - 1
-        )
-        .every((element) => arrayValuesEqual(game.board, game.lineSize - 1, element))
-    ) {
-        return true;
-    }
-    return false;
-}
-
-// ADD SVG ICON INSTEAD OF TEXT SYMBOLS
-// let firstPlayerSymbol = document.createElement("svg");
-// firstPlayerSymbol.textContent = `<svg xmlns="http://www.w3.org/2000/svg"
-//         width="19.438px" height="19.438px">
-//        <polygon points="9.72,13.348 15.807,19.438 19.436,15.809 13.35,9.721 19.438,3.632 15.807,0 9.718,6.089 3.63,0 0.001,3.629
-//            6.089,9.718 0,15.807 3.631,19.438"/>
-//     </svg>`;
+const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame"); //used for adding new game boards to this div
+let ticTacToeBoard = new GameBoard();
+document.querySelector(".newGameButton").addEventListener("click", ticTacToeBoard.createNewTicTacToeGame.bind(ticTacToeBoard));
 
 /*
 const games = [
