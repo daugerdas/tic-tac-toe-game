@@ -11,7 +11,8 @@
 // expand board
 
 const root = document.documentElement;
-const bodyDiv = document.querySelector("body");
+const htmlBodyDiv = document.querySelector("body");
+const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame");
 
 class TicTacToe {
     numberOfCells;
@@ -33,7 +34,7 @@ class TicTacToe {
     createNewBoard() {
         let newBodyWrapper = document.createElement("div");
         newBodyWrapper.classList.add("wrapper");
-        bodyDiv.appendChild(newBodyWrapper);
+        ticTacToeBodyDiv.appendChild(newBodyWrapper);
         this.bodyWrapper = newBodyWrapper;
 
         let newInputBox = document.createElement("input");
@@ -56,18 +57,13 @@ class TicTacToe {
         this.gameContainer.addEventListener("click", this.handleTurn.bind(this));
         this.inputNumberBox.addEventListener("change", this.handleBoxUnits.bind(this));
 
-        //document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, 0);
-
         this.createBoard();
     }
 
     createBoard() {
         this.numberOfCells = this.lineSize * this.lineSize;
         this.board = [];
-        root.style.setProperty(`--box-units-${this.id}`, this.lineSize);
-        // this.gameContainer.setAttribute("data-size", this.lineSize);
-        // document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, sheet.cssRules.length);
-        // document.styleSheets[0].cssRules.insertRule(`body { background: blue }`, 0);
+        this.gameContainer.style.gridTemplateColumns = `repeat(${this.lineSize}, 1fr)`;
 
         for (let i = 0; i < this.numberOfCells; i++) {
             this.board[i] = "";
@@ -110,11 +106,30 @@ class TicTacToe {
     }
 }
 
-let games = {
-    game1: new TicTacToe(4, 1),
-    game2: new TicTacToe(3, 2),
-    game2: new TicTacToe(5, 3),
+
+class GameBoard {
+    constructor() {
+        this.gameInstances = [];
+        this.numberOfGames = 0;
+    }
+
+    createNewGame() {
+        const randomNumber = Math.floor(Math.random() * 10) + 3;
+        this.numberOfGames++;
+        this.gameInstances.push = new TicTacToe(randomNumber, this.numberOfGames);
+        console.log(this.gameInstances);
+        this.updateGridSize();
+    }
+
+    updateGridSize() {
+        ticTacToeBodyDiv.style.gridTemplateColumns = `repeat(${Math.round(Math.sqrt(this.numberOfGames) + 1)}, 1fr)`;
+        console.log(Math.round(Math.sqrt(this.numberOfGames) + 1));
+    }
+
 }
+
+let ticTacToeBoard = new GameBoard();
+document.querySelector(".newGameButton").addEventListener("click", ticTacToeBoard.createNewGame.bind(ticTacToeBoard));
 
 function thereIsWinningStreak(game) {
     return checkHorizontally(game) || checkVertically(game) || checkDiagonally(game);
