@@ -64,7 +64,9 @@ class TicTacToe {
         this.board = [];
         root.style.setProperty(`--box-units-${this.id}`, this.lineSize);
         // this.gameContainer.setAttribute("data-size", this.lineSize);
-        //document.styleSheets[0].cssRules.insertRule(`.container:nth-of-type(${id}) { grid-template-columns: repeat(${this.lineSize}), 1fr; }`, sheet.cssRules.length);
+        // document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, sheet.cssRules.length);
+        // document.styleSheets[0].cssRules.insertRule(`body { background: blue }`, 0);
+        console.log(document.styleSheets[0].cssRules);
 
         for (let i = 0; i < this.numberOfCells; i++) {
             this.board[i] = "";
