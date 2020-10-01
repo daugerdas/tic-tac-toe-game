@@ -30,17 +30,19 @@ let root = document.documentElement;
 let bodyDiv = document.querySelector("body");
 
 class TicTacToe {
-    constructor (lineSize) {
+    numberOfCells;
+    gameOutput;
+    gameContainer;
+    inputNumberBox;
+    bodyWrapper;
+
+    constructor (lineSize, id) {
         this.isGameStarted = true;
+        this.id = id;
         this.lineSize = lineSize;
-        this.numberOfCells;
-        this.board = [];
         this.currentPlayerId = 0; // "0" - first player; "1" - second player
-        this.gameOutput;
         this.arrayOfStreak = [];
-        this.gameContainer;
-        this.inputNumberBox;
-        this.bodyWrapper;
+        this.board = [];
         this.createNewBoard();
     }
 
@@ -75,8 +77,7 @@ class TicTacToe {
 
     createBoard() {
         this.numberOfCells = this.lineSize * this.lineSize;
-
-        console.log(this.numberOfCells);
+        this.board = [];
 
         for (let i = 0; i < this.numberOfCells; i++) {
             this.board[i] = "";
@@ -85,16 +86,15 @@ class TicTacToe {
             newNode.setAttribute("data-id", i);
             this.gameContainer.appendChild(newNode);
         }
-        this.gameOutput = document.querySelectorAll("[data-id]");
+        this.gameOutput = this.gameContainer.querySelectorAll("[data-id]");
 
         this.isGameStarted = true;
-        console.log(this.gameOutput);
     }
 
     handleTurn(event) {
-        console.log(this);
+        console.log(this, this.id);
         let clickedBox = event.target.dataset.id;
-        console.log(this.gameOutput);
+        console.log(this.gameOutput, this.id);
         if (this.board[clickedBox] == "" && this.isGameStarted) {
             this.board[clickedBox] = this.currentPlayerId === 0 ? "O" : "X";
             console.log(this.board);
@@ -122,7 +122,9 @@ class TicTacToe {
 }
 
 let games = {
-    game1: new TicTacToe(4),
+    game1: new TicTacToe(4, 1),
+    game2: new TicTacToe(4, 2),
+    game2: new TicTacToe(4, 2),
 }
 
 // let boxUnits = 3;
