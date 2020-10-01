@@ -62,8 +62,7 @@ class TicTacToe {
     createBoard() {
         this.numberOfCells = this.lineSize * this.lineSize;
         this.board = [];
-        root.style.setProperty('--box-units', this.lineSize);
-        console.log(`--box-units-${this.id}`, this.lineSize);
+        root.style.setProperty(`--box-units-${this.id}`, this.lineSize);
         // this.gameContainer.setAttribute("data-size", this.lineSize);
         //document.styleSheets[0].cssRules.insertRule(`.container:nth-of-type(${id}) { grid-template-columns: repeat(${this.lineSize}), 1fr; }`, sheet.cssRules.length);
 
