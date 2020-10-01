@@ -15,13 +15,19 @@ const htmlBodyDiv = document.querySelector("body");
 const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame");
 
 class TicTacToe {
-    numberOfCells;
-    gameOutput;
-    gameContainer;
-    inputNumberBox;
-    bodyWrapper;
+    // PUBLIC CLASS FIELDS NOT SUPPORTED IN SAFARI
+    // numberOfCells;
+    // gameOutput;
+    // gameContainer;
+    // inputNumberBox;
+    // bodyWrapper;
 
     constructor (lineSize, id) {
+        // numberOfCells;
+        this.gameOutput;
+        this.ameContainer;
+        this.inputNumberBox;
+        this.bodyWrapper;
         this.isGameStarted = true;
         this.id = id;
         this.lineSize = lineSize;
@@ -114,7 +120,7 @@ class GameBoard {
     }
 
     createNewGame() {
-        const randomNumber = Math.floor(Math.random() * 10) + 3;
+        const randomNumber = Math.floor(Math.random() * 5) + 3;
         this.numberOfGames++;
         this.gameInstances.push = new TicTacToe(randomNumber, this.numberOfGames);
         console.log(this.gameInstances);
