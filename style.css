@@ -39,7 +39,6 @@ html, body {
 
 .container {
     width: 100%;
-    max-height: 60%;
     max-width: 60%;
     display: grid;
     grid-gap: 0.5em;
