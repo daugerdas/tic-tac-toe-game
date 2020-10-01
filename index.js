@@ -15,15 +15,9 @@ const htmlBodyDiv = document.querySelector("body");
 const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame");
 
 class TicTacToe {
-    // PUBLIC CLASS FIELDS NOT SUPPORTED IN SAFARI
-    // numberOfCells;
-    // gameOutput;
-    // gameContainer;
-    // inputNumberBox;
-    // bodyWrapper;
 
     constructor (lineSize, id) {
-        // numberOfCells;
+        // public class fields not supported in Safari so defined here
         this.gameOutput;
         this.ameContainer;
         this.inputNumberBox;
