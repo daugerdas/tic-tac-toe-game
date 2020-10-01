@@ -56,7 +56,7 @@ class TicTacToe {
         this.gameContainer.addEventListener("click", this.handleTurn.bind(this));
         this.inputNumberBox.addEventListener("change", this.handleBoxUnits.bind(this));
 
-        document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, 0);
+        //document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, 0);
 
         this.createBoard();
     }
