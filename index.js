@@ -127,15 +127,6 @@ let games = {
     game2: new TicTacToe(4, 2),
 }
 
-// let boxUnits = 3;
-
-// let game1 = new TicTacToe(boxUnits);
-
-// function newGame() {
-//     game1 = new TicTacToe(boxUnits);
-//     console.log(game1);
-// }
-
 function thereIsWinningStreak(game) {
     return checkHorizontally(game) || checkVertically(game) || checkDiagonally(game);
 }
