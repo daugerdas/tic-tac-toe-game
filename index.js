@@ -10,8 +10,8 @@
 // check results after each turn (check for reaccuring symbols or have patterns)
 // expand board
 
-let root = document.documentElement;
-let bodyDiv = document.querySelector("body");
+const root = document.documentElement;
+const bodyDiv = document.querySelector("body");
 
 class TicTacToe {
     numberOfCells;
@@ -62,6 +62,10 @@ class TicTacToe {
     createBoard() {
         this.numberOfCells = this.lineSize * this.lineSize;
         this.board = [];
+        root.style.setProperty('--box-units', this.lineSize);
+        console.log(`--box-units-${this.id}`, this.lineSize);
+        // this.gameContainer.setAttribute("data-size", this.lineSize);
+        //document.styleSheets[0].cssRules.insertRule(`.container:nth-of-type(${id}) { grid-template-columns: repeat(${this.lineSize}), 1fr; }`, sheet.cssRules.length);
 
         for (let i = 0; i < this.numberOfCells; i++) {
             this.board[i] = "";
@@ -99,7 +103,6 @@ class TicTacToe {
         console.log(target.value, "10");
         console.log(this.lineSize);
         this.gameContainer.textContent = "";
-        root.style.setProperty("--box-units", this.lineSize);
         console.log(this.bodyWrapper);
         this.createBoard();
     }
@@ -107,8 +110,8 @@ class TicTacToe {
 
 let games = {
     game1: new TicTacToe(4, 1),
-    game2: new TicTacToe(4, 2),
-    game2: new TicTacToe(4, 2),
+    game2: new TicTacToe(3, 2),
+    game2: new TicTacToe(5, 3),
 }
 
 function thereIsWinningStreak(game) {
