@@ -56,6 +56,8 @@ class TicTacToe {
         this.gameContainer.addEventListener("click", this.handleTurn.bind(this));
         this.inputNumberBox.addEventListener("change", this.handleBoxUnits.bind(this));
 
+        document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, sheet.cssRules.length);
+
         this.createBoard();
     }
 
@@ -66,7 +68,6 @@ class TicTacToe {
         // this.gameContainer.setAttribute("data-size", this.lineSize);
         // document.styleSheets[0].cssRules.insertRule(`.wrapper:nth-child(${this.id}) .container { grid-template-columns: repeat(${this.lineSize}), 1fr; background: blue;}`, sheet.cssRules.length);
         // document.styleSheets[0].cssRules.insertRule(`body { background: blue }`, 0);
-        console.log(document.styleSheets[0].cssRules);
 
         for (let i = 0; i < this.numberOfCells; i++) {
             this.board[i] = "";
