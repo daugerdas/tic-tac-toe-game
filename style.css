@@ -51,7 +51,7 @@ html, body {
     padding-bottom: 100%;
     background-color: var(--box-background-color);
     text-align: center;
-    font-size: 5vmin;
+    font-size: 2vmin;
     /* vertical-align: middle; */
     border-radius: 0.5em;
 }
