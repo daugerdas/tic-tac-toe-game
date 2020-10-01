@@ -146,8 +146,10 @@ function checkHorizontally(game) {
             .slice(i, i + game.lineSize)
             .every((element) => arrayValuesEqual(game.board, i, element))
         ) {
-            // let temp = i;
-            // board.slice(i, i + boxUnits).forEach(element => arrayOfStreak.push(temp++));
+            let temp = i;
+            game.board
+            .slice(i, i + game.lineSize)
+            .forEach(element => game.arrayOfStreak.push(temp++));
             return true;
         }
     }
@@ -161,6 +163,12 @@ function checkVertically(game) {
             .filter((element, index) => (index - i) % game.lineSize == 0)
             .every((element) => arrayValuesEqual(game.board, i, element))
         ) {
+            console.log(game.board
+                .map((element, index) => ((index - i) % game.lineSize == 0) ? index : null));
+            game.arrayOfStreak = game.board
+            .map((element, index) => ((index - i) % game.lineSize == 0) ? index : null)
+            .filter(element => element);
+            if (i == 0) game.arrayOfStreak.unshift(0);
             return true;
         }
     }
