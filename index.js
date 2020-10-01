@@ -10,22 +10,6 @@
 // check results after each turn (check for reaccuring symbols or have patterns)
 // expand board
 
-// let gameStarted = false;
-// let playersTurn = 0; // "0" - first player; "1" - second player
-// let board = ['','','','','','','','',''];
-
-// function handleTurn(event) {
-//     if (event.target.classList.contains("box")) {
-//         let clickedBox = event.target.dataset.id;
-//         board[clickedBox] = (playersTurn === 0 ? "X" : "O");
-//         playersTurn = (playersTurn === 0 ? 1 : 0);
-//         console.log(board);
-//     }
-// }
-
-// let boxes = document.querySelector(".container");
-// boxes.addEventListener('click', handleTurn);
-
 let root = document.documentElement;
 let bodyDiv = document.querySelector("body");
 
