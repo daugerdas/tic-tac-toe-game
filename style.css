@@ -2,13 +2,25 @@
     --box-background-color: grey;
     --box-background-color-success: green;
     --box-container-backround-color: blue;
-    --box-units: 4;
 }   
 
 html, body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
     margin: 0;
+}
+
+.ticTacToeGame {
+    width: 100vh;
+    height: 100%;
+    display: grid;
+    grid-gap: 0.5em;
+    grid-template-columns: repeat(2, 1fr);
+    /* grid-auto-rows: min-content;  */
 }
 
 .wrapper {
@@ -16,26 +28,20 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* text-align: center; */
-    /* min-height: 100vh; */
     height: 100%;
-    /* background-color: blue; */
+    width: 100%;
 }
 
-#boxUnitsInput {
+.boxUnitsInput {
     margin: 0.5em;
     width: 10vmin;
 }
 
 .container {
-    width: 60vh;
-    max-height: 60%;
+    width: 100%;
     max-width: 60%;
     display: grid;
-    grid-template-columns: repeat(var(--box-units), 1fr);
-    grid-template-rows: repeat(--box-units, 1fr);
     grid-gap: 0.5em;
-    grid-auto-rows: repeat(--box-units, 1fr);
 }
 
 .box {
@@ -44,11 +50,19 @@ html, body {
     padding-bottom: 100%;
     background-color: var(--box-background-color);
     text-align: center;
-    font-size: 5vmin;
+    font-size: 2vmin;
     /* vertical-align: middle; */
     border-radius: 0.5em;
 }
 
 .box-success {
     background-color: var(--box-background-color-success);
+}
+
+.newGameButton {
+    margin: 30px;
+}
+
+.resetGameButton {
+    margin: 10px;
 }
