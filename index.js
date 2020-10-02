@@ -85,10 +85,10 @@ class TicTacToe {
         this.resetGameButton.addEventListener("click", this.resetGame.bind(this));
 
 
-        this.createBoard();
+        this.createNewBoardBoxes();
     }
 
-    createBoard() {
+    createNewBoardBoxes() {
         this.numberOfCells = this.lineSize * this.lineSize; //do calculations each time there is a change in lineSize
         this.board = [];
         this.gameContainer.style.gridTemplateColumns = `repeat(${this.lineSize}, 1fr)`; //adjust grid value to have a correct square UI
@@ -130,7 +130,7 @@ class TicTacToe {
 
     resetGame() {
         this.gameContainer.textContent = ""; // erase current game container
-        this.createBoard(); //fill current game container
+        this.createNewBoardBoxes(); //fill current game container
     }
 
     thereIsWinningStreak() {
