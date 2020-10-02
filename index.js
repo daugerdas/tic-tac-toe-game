@@ -61,7 +61,7 @@ class TicTacToe {
         newInputBox.setAttribute("type", "number");
         newInputBox.setAttribute("placeholder", "4");
         newInputBox.setAttribute("min", "3");
-        newInputBox.setAttribute("max", "30");
+        newInputBox.setAttribute("max", "10");
         newInputBox.setAttribute("step", "1");
         newInputBox.setAttribute("value", this.lineSize);
         this.inputNumberBox = newInputBox;
