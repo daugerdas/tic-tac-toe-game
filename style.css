@@ -1,68 +1,69 @@
 :root {
-    --box-background-color: grey;
-    --box-background-color-success: green;
-    --box-container-backround-color: blue;
-}   
+  --box-background-color: grey;
+  --box-background-color-success: green;
+  --box-container-backround-color: blue;
+}
 
-html, body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    margin: 0;
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 .ticTacToeGame {
-    width: 100vh;
-    height: 100%;
-    display: grid;
-    grid-gap: 0.5em;
-    grid-template-columns: repeat(2, 1fr);
-    /* grid-auto-rows: min-content;  */
+  width: 100vh;
+  height: 100%;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-auto-rows: min-content;  */
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .boxUnitsInput {
-    margin: 0.5em;
-    width: 10vmin;
+  margin: 0.5em;
+  width: 10vmin;
 }
 
 .container {
-    width: 100%;
-    max-width: 60%;
-    display: grid;
-    grid-gap: 0.5em;
+  width: 100%;
+  max-width: 60%;
+  display: grid;
+  grid-gap: 0.5em;
 }
 
 .box {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    background-color: var(--box-background-color);
-    text-align: center;
-    font-size: 2vmin;
-    /* vertical-align: middle; */
-    border-radius: 0.5em;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  background-color: var(--box-background-color);
+  text-align: center;
+  font-size: 2vmin;
+  /* vertical-align: middle; */
+  border-radius: 0.5em;
 }
 
 .box-success {
-    background-color: var(--box-background-color-success);
+  background-color: var(--box-background-color-success);
 }
 
 .newGameButton {
-    margin: 30px;
+  margin: 30px;
 }
 
 .resetGameButton {
-    margin: 10px;
+  margin: 10px;
 }
