@@ -10,5 +10,15 @@
     <div class="ticTacToeGame"></div>
     <button class="newGameButton">New board</button>
     <script src="index.js"></script>
+    <script>
+      const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame"); //used for adding new game boards to this div
+      let ticTacToeBoard = new GameBoard();
+      document
+        .querySelector(".newGameButton")
+        .addEventListener(
+          "click",
+          ticTacToeBoard.createNewTicTacToeGame.bind(ticTacToeBoard)
+        );
+    </script>
   </body>
 </html>

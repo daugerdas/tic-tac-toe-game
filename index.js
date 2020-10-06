@@ -236,15 +236,6 @@ class TicTacToe {
   }
 }
 
-const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame"); //used for adding new game boards to this div
-let ticTacToeBoard = new GameBoard();
-document
-  .querySelector(".newGameButton")
-  .addEventListener(
-    "click",
-    ticTacToeBoard.createNewTicTacToeGame.bind(ticTacToeBoard)
-  );
-
 /*
 const games = [
   new TicTacToe({ size: 3 }),
