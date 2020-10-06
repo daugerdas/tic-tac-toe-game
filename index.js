@@ -13,19 +13,17 @@
 class GameBoard {
   constructor() {
     this.gameInstances = [];
-    this.numberOfGames = 0;
   }
 
   createNewTicTacToeGame() {
     const randomNumber = Math.floor(Math.random() * 5) + 3;
-    this.numberOfGames++;
-    this.gameInstances.push(new TicTacToe(randomNumber, this.numberOfGames));
+    this.gameInstances.push(new TicTacToe(randomNumber, this.gameInstances.length));
     this.updateGridSize();
   }
 
   updateGridSize() {
     ticTacToeBodyDiv.style.gridTemplateColumns = `repeat(${Math.round(
-      Math.sqrt(this.numberOfGames) + 1
+      Math.sqrt(this.gameInstances.length) + 1
     )}, 1fr)`;
   }
 }
