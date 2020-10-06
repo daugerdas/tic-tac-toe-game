@@ -17,7 +17,9 @@ class GameBoard {
 
   createNewTicTacToeGame() {
     const randomNumber = Math.floor(Math.random() * 5) + 3;
-    this.gameInstances.push(new TicTacToe(randomNumber, this.gameInstances.length));
+    this.gameInstances.push(
+      new TicTacToe(randomNumber, this.gameInstances.length)
+    );
     this.updateGridSize();
   }
 
@@ -151,16 +153,17 @@ class TicTacToe {
 
   checkHorizontally() {
     for (let i = 0; i < this.numberOfCells; i += this.lineSize) {
+      const arrayOfHorizontalIndexes = this.board.slice(i, i + this.lineSize);
       if (
-        this.board
-          .slice(i, i + this.lineSize)
-          .every((element) => this.arrayValuesEqual(this.board, i, element))
+        arrayOfHorizontalIndexes.every((element) =>
+          this.arrayValuesEqual(this.board, i, element)
+        )
       ) {
         //caclulate indexes of boxes that contain the streak
         let temp = i;
-        this.board
-          .slice(i, i + this.lineSize)
-          .forEach((element) => this.arrayOfStreak.push(temp++));
+        arrayOfHorizontalIndexes.forEach((element) =>
+          this.arrayOfStreak.push(temp++)
+        );
         return true;
       }
     }
