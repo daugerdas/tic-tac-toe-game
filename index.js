@@ -136,7 +136,7 @@ class TicTacToe {
   }
 
   handleBoxUnits({ target }) {
-    this.lineSize = parseInt(target.value, "10"); //get integer from the input box
+    this.lineSize = target.valueAsNumber; //get integer from the input box
     this.resetGame();
   }
 
