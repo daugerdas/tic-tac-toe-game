@@ -60,17 +60,18 @@ class TicTacToe {
     //create input box for this specific div with correct attribbutes
     let newInputBox = document.createElement("input");
     newInputBox.classList.add("boxUnitsInput");
-  const attrs = {
-    type: "number",
-    placeholder: 4,
-    min: 3,
-    max: 10,
-    step: 1,
-    value: this.lineSize,
-  };
+    const attrs = {
+      type: "number",
+      placeholder: 4,
+      min: 3,
+      max: 10,
+      step: 1,
+      value: this.lineSize,
+    };
 
-  Object.entries(attrs)
-    .forEach(([key, value]) => newInputBox.setAttribute(key, value))
+    Object.entries(attrs).forEach(([key, value]) =>
+      newInputBox.setAttribute(key, value)
+    );
     this.inputNumberBox = newInputBox;
     this.bodyWrapper.appendChild(this.inputNumberBox);
 
