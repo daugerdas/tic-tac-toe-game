@@ -83,7 +83,7 @@ class TicTacToe {
 
     //set value for player input smaller by one than number of boxes in a line
     newInputBox.setAttribute("value", this.lineSize);
-    newInputBox2.setAttribute("value", this.lineSize - 1);
+    newInputBox2.setAttribute("value", this.numberOfPlayers);
 
     this.inputNumberBox = newInputBox;
     this.bodyWrapper.appendChild(this.inputNumberBox);
@@ -116,6 +116,7 @@ class TicTacToe {
     this.resetGameButton.addEventListener("click", this.resetGame.bind(this));
 
     this.createNewBoardBoxes();
+    this.createNewPlayers();
   }
 
   createNewBoardBoxes() {
@@ -133,6 +134,13 @@ class TicTacToe {
     this.gameOutput = this.gameContainer.querySelectorAll("[data-id]");
 
     this.isGameStarted = true;
+  }
+
+  createNewPlayers() {
+    for (let i = 1; i <= this.numberOfPlayers; i++) {
+        this.players[`player${i}`] = {id: i, currentPlayer: false};
+    }
+    console.log(this.players);
   }
 
   handleTurn(event) {
@@ -161,17 +169,15 @@ class TicTacToe {
   }
 
   handlePlayersNumber({ target }) {
-    // this.numberOfPlayers = parseInt(target.value, "10");
-    // console.log(typeof target.value);
-    // for (let i = 0; i < this.numberOfPlayers-1; i++) {
-    //     this.players.hello = false;
-    //     console.log(this.players, i);
-    // }
+    this.numberOfPlayers = target.valueAsNumber;
+    this.resetGame();
+    console.log(this.players);
   }
 
   resetGame() {
     this.gameContainer.textContent = ""; // erase current game container
     this.createNewBoardBoxes(); //fill current game container
+    this.createNewPlayers();
   }
 
   thereIsWinningStreak() {
