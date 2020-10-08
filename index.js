@@ -17,7 +17,7 @@ class GameBoard {
 
   createNewTicTacToeGame() {
     const randomNumber1 = Math.floor(Math.random() * 5) + 3;
-    const randomNumber2 = Math.floor(Math.random() * 5) + 3;
+    const randomNumber2 = Math.floor(Math.random() * randomNumber1) + 2;
     this.gameInstances.push(
       new TicTacToe(randomNumber1, randomNumber2, this.gameInstances.length)
     );
@@ -137,20 +137,30 @@ class TicTacToe {
   }
 
   createNewPlayers() {
+    this.players = {};
     for (let i = 1; i <= this.numberOfPlayers; i++) {
-        this.players[`player${i}`] = {id: i, currentPlayer: false};
+      this.players[`player${i}`] = { id: i, currentPlayer: false };
     }
-    console.log(this.players);
+    this.players.player1.currentPlayer = true;
   }
 
   handleTurn(event) {
     let clickedBoxID = event.target.dataset.id; //get id of the clicked box
 
+    //check if the box is empty and the game has not ended yet
     if (this.board[clickedBoxID] == "" && this.isGameStarted) {
-      //check if the box is empty and the game has not ended yet
-      this.board[clickedBoxID] = this.currentPlayerID === 0 ? "O" : "X"; //add current player symbol to the board array
-      this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID]; //add current player symbol to the UI
-      this.currentPlayerID = this.currentPlayerID === 0 ? 1 : 0; //change current player so other can take turn
+      Object.values(this.players)
+        .filter((player) => player.currentPlayer)
+        .forEach((player) => {
+          this.board[clickedBoxID] = player.id; //add player id to the game board array
+          this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID]; //add player id to the game UI
+          player.currentPlayer = false; //change current player to the next one
+          this.players[
+            player.id != this.numberOfPlayers
+              ? `player${player.id + 1}`
+              : "player1"
+          ].currentPlayer = true;
+        });
 
       if (this.thereIsWinningStreak(this)) {
         //check if any users made winning streak
@@ -171,7 +181,6 @@ class TicTacToe {
   handlePlayersNumber({ target }) {
     this.numberOfPlayers = target.valueAsNumber;
     this.resetGame();
-    console.log(this.players);
   }
 
   resetGame() {
