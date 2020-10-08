@@ -11,8 +11,9 @@
     <button class="newGameButton">New board</button>
     <script src="index.js"></script>
     <script>
-      const ticTacToeBodyDiv = document.querySelector(".ticTacToeGame"); //used for adding new game boards to this div
-      let ticTacToeBoard = new GameBoard();
+      let ticTacToeBoard = new GameBoard({
+        selector: ".ticTacToeGame",
+      });
       document
         .querySelector(".newGameButton")
         .addEventListener(
