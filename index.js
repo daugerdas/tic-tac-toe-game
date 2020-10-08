@@ -46,8 +46,7 @@ class TicTacToe {
     this.lineSize = lineSize; //number of tiles/boxes in each row and column
     this.numberOfPlayers = numberOfPlayers;
     this.numberOfCells; //variable to store total number of boxes (lineSize*lineSize)
-    this.currentPlayerID = 0; // "0" - first player; "1" - second player
-    this.players = {};
+    this.currentPlayerID;
 
     this.bodyWrapper; //wrapper div that containes both gameContainer and inputNumberBox
     this.gameContainer; //container div for storing x*x tiles/boxes of the game
@@ -124,7 +123,7 @@ class TicTacToe {
     this.resetGameButton.addEventListener("click", this.resetGame.bind(this));
 
     this.createNewBoardBoxes();
-    this.createNewPlayers();
+    this.resetPlayerID();
   }
 
   createNewBoardBoxes() {
@@ -144,12 +143,8 @@ class TicTacToe {
     this.isGameStarted = true;
   }
 
-  createNewPlayers() {
-    this.players = {};
-    for (let i = 1; i <= this.numberOfPlayers; i++) {
-      this.players[`player${i}`] = { id: i, currentPlayer: false };
-    }
-    this.players.player1.currentPlayer = true;
+  resetPlayerID() {
+    this.currentPlayerID = 1;
   }
 
   handleTurn(event) {
@@ -157,18 +152,12 @@ class TicTacToe {
 
     //check if the box is empty and the game has not ended yet
     if (this.board[clickedBoxID] == "" && this.isGameStarted) {
-      Object.values(this.players)
-        .filter((player) => player.currentPlayer)
-        .forEach((player) => {
-          this.board[clickedBoxID] = player.id; //add player id to the game board array
-          this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID]; //add player id to the game UI
-          player.currentPlayer = false; //change current player to the next one
-          this.players[
-            player.id != this.numberOfPlayers
-              ? `player${player.id + 1}`
-              : "player1"
-          ].currentPlayer = true;
-        });
+      this.board[clickedBoxID] = this.currentPlayerID;
+      this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID];
+      this.currentPlayerID =
+        this.currentPlayerID != this.numberOfPlayers
+          ? this.currentPlayerID + 1
+          : 1;
 
       if (this.thereIsWinningStreak(this)) {
         //check if any users made winning streak
@@ -194,7 +183,7 @@ class TicTacToe {
   resetGame() {
     this.gameContainer.textContent = ""; // erase current game container
     this.createNewBoardBoxes(); //fill current game container
-    this.createNewPlayers();
+    this.resetPlayerID();
   }
 
   thereIsWinningStreak() {
