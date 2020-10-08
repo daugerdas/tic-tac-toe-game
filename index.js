@@ -90,6 +90,8 @@ class TicTacToe {
     //set value for player input smaller by one than number of boxes in a line
     newInputBox.setAttribute("value", this.lineSize);
     newInputBox2.setAttribute("value", this.numberOfPlayers);
+    newInputBox.setAttribute("min", 3);
+    newInputBox2.setAttribute("min", 2);
 
     this.inputNumberBox = newInputBox;
     this.gameControlsContainer.appendChild(this.inputNumberBox);

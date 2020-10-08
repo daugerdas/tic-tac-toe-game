@@ -51,10 +51,10 @@ body {
   padding-bottom: 100%;
   background-color: var(--box-background-color);
   text-align: center;
-  font-size: 10vmin;
   border-radius: 0.5em;
   font: inherit;
   font-weight: 500;
+  font-size: 5vmin;
 }
 
 .box-success {
