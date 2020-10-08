@@ -12,6 +12,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
+  font: 300 2vmin 'Rubik', sans-serif;
 }
 
 .ticTacToeGame {
@@ -31,9 +32,10 @@ body {
   width: 100%;
 }
 
-.boxUnitsInput {
+.boxUnitsInput, .playerNumberInput {
   margin: 0.5em;
-  width: 10vmin;
+  width: 4vmin;
+  font: inherit;
 }
 
 .container {
@@ -49,8 +51,10 @@ body {
   padding-bottom: 100%;
   background-color: var(--box-background-color);
   text-align: center;
-  font-size: 2vmin;
+  font-size: 10vmin;
   border-radius: 0.5em;
+  font: inherit;
+  font-weight: 500;
 }
 
 .box-success {
@@ -59,8 +63,11 @@ body {
 
 .newGameButton {
   margin: 30px;
+  font: inherit;
 }
 
 .resetGameButton {
-  margin: 10px;
+  width: 14vmin;
+  margin: 0.5em;
+  font: inherit;
 }

@@ -43,6 +43,7 @@ class TicTacToe {
 
     this.bodyWrapper; //wrapper div that containes both gameContainer and inputNumberBox
     this.gameContainer; //container div for storing x*x tiles/boxes of the game
+    this.gameControlsContainer; //container div for containing 2 input boxes and reset button
     this.inputNumberBox; //input div box for each board
     this.inputPlayersNumberBox;
     this.resetGameButton;
@@ -60,6 +61,11 @@ class TicTacToe {
     newBodyWrapper.classList.add("wrapper");
     ticTacToeBodyDiv.appendChild(newBodyWrapper);
     this.bodyWrapper = newBodyWrapper;
+
+    let newGameControlsContainer = document.createElement("div");
+    newGameControlsContainer.classList.add("gameControlsContainer");
+    this.bodyWrapper.appendChild(newGameControlsContainer);
+    this.gameControlsContainer = newGameControlsContainer;
 
     //create input box for this specific div with correct attribbutes
     let newInputBox = document.createElement("input");
@@ -86,16 +92,16 @@ class TicTacToe {
     newInputBox2.setAttribute("value", this.numberOfPlayers);
 
     this.inputNumberBox = newInputBox;
-    this.bodyWrapper.appendChild(this.inputNumberBox);
+    this.gameControlsContainer.appendChild(this.inputNumberBox);
 
     this.inputPlayersNumberBox = newInputBox2;
-    this.bodyWrapper.appendChild(this.inputPlayersNumberBox);
+    this.gameControlsContainer.appendChild(this.inputPlayersNumberBox);
 
     let newResetGameButton = document.createElement("button");
     newResetGameButton.textContent = "Reset game";
     newResetGameButton.classList.add("resetGameButton");
     this.resetGameButton = newResetGameButton;
-    this.bodyWrapper.appendChild(this.resetGameButton);
+    this.gameControlsContainer.appendChild(this.resetGameButton);
 
     //create container for tiles/boxes to be used later to add boxes
     let newContainer = document.createElement("div");
