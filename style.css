@@ -1,7 +1,6 @@
 :root {
   --box-background-color: grey;
   --box-background-color-success: green;
-  --box-container-backround-color: blue;
 }
 
 html,
@@ -21,7 +20,6 @@ body {
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(2, 1fr);
-  /* grid-auto-rows: min-content;  */
 }
 
 .wrapper {
@@ -52,7 +50,6 @@ body {
   background-color: var(--box-background-color);
   text-align: center;
   font-size: 2vmin;
-  /* vertical-align: middle; */
   border-radius: 0.5em;
 }
 
