@@ -16,9 +16,10 @@ class GameBoard {
   }
 
   createNewTicTacToeGame() {
-    const randomNumber = Math.floor(Math.random() * 5) + 3;
+    const randomNumber1 = Math.floor(Math.random() * 5) + 3;
+    const randomNumber2 = Math.floor(Math.random() * randomNumber1) + 2;
     this.gameInstances.push(
-      new TicTacToe(randomNumber, this.gameInstances.length)
+      new TicTacToe(randomNumber1, randomNumber2, this.gameInstances.length)
     );
     this.updateGridSize();
   }
@@ -31,16 +32,19 @@ class GameBoard {
 }
 
 class TicTacToe {
-  constructor(lineSize, id) {
+  constructor(lineSize, numberOfPlayers, id) {
     this.isGameStarted = true;
     this.id = id; //gameID
     this.lineSize = lineSize; //number of tiles/boxes in each row and column
+    this.numberOfPlayers = numberOfPlayers;
     this.numberOfCells; //variable to store total number of boxes (lineSize*lineSize)
     this.currentPlayerID = 0; // "0" - first player; "1" - second player
+    this.players = {};
 
     this.bodyWrapper; //wrapper div that containes both gameContainer and inputNumberBox
     this.gameContainer; //container div for storing x*x tiles/boxes of the game
     this.inputNumberBox; //input div box for each board
+    this.inputPlayersNumberBox;
     this.resetGameButton;
 
     this.gameOutput = []; //array that keeps track of divs that have X and O in the UI
@@ -60,14 +64,32 @@ class TicTacToe {
     //create input box for this specific div with correct attribbutes
     let newInputBox = document.createElement("input");
     newInputBox.classList.add("boxUnitsInput");
-    newInputBox.setAttribute("type", "number");
-    newInputBox.setAttribute("placeholder", "4");
-    newInputBox.setAttribute("min", "3");
-    newInputBox.setAttribute("max", "10");
-    newInputBox.setAttribute("step", "1");
+
+    let newInputBox2 = document.createElement("input");
+    newInputBox2.classList.add("playerNumberInput");
+
+    const attrs = {
+      type: "number",
+      placeholder: 4,
+      min: 3,
+      max: 10,
+      step: 1,
+    };
+
+    Object.entries(attrs).forEach(([key, value]) => {
+      newInputBox.setAttribute(key, value);
+      newInputBox2.setAttribute(key, value);
+    });
+
+    //set value for player input smaller by one than number of boxes in a line
     newInputBox.setAttribute("value", this.lineSize);
+    newInputBox2.setAttribute("value", this.numberOfPlayers);
+
     this.inputNumberBox = newInputBox;
     this.bodyWrapper.appendChild(this.inputNumberBox);
+
+    this.inputPlayersNumberBox = newInputBox2;
+    this.bodyWrapper.appendChild(this.inputPlayersNumberBox);
 
     let newResetGameButton = document.createElement("button");
     newResetGameButton.textContent = "Reset game";
@@ -87,9 +109,14 @@ class TicTacToe {
       "change",
       this.handleBoxUnits.bind(this)
     );
+    this.inputPlayersNumberBox.addEventListener(
+      "change",
+      this.handlePlayersNumber.bind(this)
+    );
     this.resetGameButton.addEventListener("click", this.resetGame.bind(this));
 
     this.createNewBoardBoxes();
+    this.createNewPlayers();
   }
 
   createNewBoardBoxes() {
@@ -109,14 +136,31 @@ class TicTacToe {
     this.isGameStarted = true;
   }
 
+  createNewPlayers() {
+    this.players = {};
+    for (let i = 1; i <= this.numberOfPlayers; i++) {
+      this.players[`player${i}`] = { id: i, currentPlayer: false };
+    }
+    this.players.player1.currentPlayer = true;
+  }
+
   handleTurn(event) {
     let clickedBoxID = event.target.dataset.id; //get id of the clicked box
 
+    //check if the box is empty and the game has not ended yet
     if (this.board[clickedBoxID] == "" && this.isGameStarted) {
-      //check if the box is empty and the game has not ended yet
-      this.board[clickedBoxID] = this.currentPlayerID === 0 ? "O" : "X"; //add current player symbol to the board array
-      this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID]; //add current player symbol to the UI
-      this.currentPlayerID = this.currentPlayerID === 0 ? 1 : 0; //change current player so other can take turn
+      Object.values(this.players)
+        .filter((player) => player.currentPlayer)
+        .forEach((player) => {
+          this.board[clickedBoxID] = player.id; //add player id to the game board array
+          this.gameOutput[clickedBoxID].textContent = this.board[clickedBoxID]; //add player id to the game UI
+          player.currentPlayer = false; //change current player to the next one
+          this.players[
+            player.id != this.numberOfPlayers
+              ? `player${player.id + 1}`
+              : "player1"
+          ].currentPlayer = true;
+        });
 
       if (this.thereIsWinningStreak(this)) {
         //check if any users made winning streak
@@ -134,9 +178,15 @@ class TicTacToe {
     this.resetGame();
   }
 
+  handlePlayersNumber({ target }) {
+    this.numberOfPlayers = target.valueAsNumber;
+    this.resetGame();
+  }
+
   resetGame() {
     this.gameContainer.textContent = ""; // erase current game container
     this.createNewBoardBoxes(); //fill current game container
+    this.createNewPlayers();
   }
 
   thereIsWinningStreak() {
