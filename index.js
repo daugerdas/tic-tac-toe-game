@@ -16,10 +16,14 @@ class GameBoard {
   }
 
   createNewTicTacToeGame() {
-    const randomNumber1 = Math.floor(Math.random() * 5) + 3;
-    const randomNumber2 = Math.floor(Math.random() * randomNumber1) + 2;
+    const randomNumber1 = Math.floor(Math.random() * 5) + 3; //random number of boxes in a line, range (3, 8)
+    const randomNumber2 = Math.floor(Math.random() * randomNumber1) + 2; //random number of players, range (2, < numberof boxes)
     this.gameInstances.push(
-      new TicTacToe(randomNumber1, randomNumber2, this.gameInstances.length)
+      new TicTacToe({
+        boardSize: randomNumber1,
+        playersAmount: randomNumber2,
+        instancesLength: this.gameInstances.length,
+      })
     );
     this.updateGridSize();
   }
@@ -32,7 +36,11 @@ class GameBoard {
 }
 
 class TicTacToe {
-  constructor(lineSize, numberOfPlayers, id) {
+  constructor({
+    boardSize: lineSize,
+    playersAmount: numberOfPlayers,
+    instancesLength: id,
+  }) {
     this.isGameStarted = true;
     this.id = id; //gameID
     this.lineSize = lineSize; //number of tiles/boxes in each row and column
@@ -43,7 +51,7 @@ class TicTacToe {
 
     this.bodyWrapper; //wrapper div that containes both gameContainer and inputNumberBox
     this.gameContainer; //container div for storing x*x tiles/boxes of the game
-    this.inputNumberBox; //input div box for each board
+    this.inputLineSizeBox; //input div box for each board
     this.inputPlayersNumberBox;
     this.resetGameButton;
 
@@ -62,11 +70,11 @@ class TicTacToe {
     this.bodyWrapper = newBodyWrapper;
 
     //create input box for this specific div with correct attribbutes
-    let newInputBox = document.createElement("input");
-    newInputBox.classList.add("boxUnitsInput");
+    let newLineSizeInputBox = document.createElement("input");
+    newLineSizeInputBox.classList.add("boxUnitsInput");
 
-    let newInputBox2 = document.createElement("input");
-    newInputBox2.classList.add("playerNumberInput");
+    let newPlayersNumberBox = document.createElement("input");
+    newPlayersNumberBox.classList.add("playerNumberInput");
 
     const attrs = {
       type: "number",
@@ -77,18 +85,18 @@ class TicTacToe {
     };
 
     Object.entries(attrs).forEach(([key, value]) => {
-      newInputBox.setAttribute(key, value);
-      newInputBox2.setAttribute(key, value);
+      newLineSizeInputBox.setAttribute(key, value);
+      newPlayersNumberBox.setAttribute(key, value);
     });
 
     //set value for player input smaller by one than number of boxes in a line
-    newInputBox.setAttribute("value", this.lineSize);
-    newInputBox2.setAttribute("value", this.numberOfPlayers);
+    newLineSizeInputBox.setAttribute("value", this.lineSize);
+    newPlayersNumberBox.setAttribute("value", this.numberOfPlayers);
 
-    this.inputNumberBox = newInputBox;
-    this.bodyWrapper.appendChild(this.inputNumberBox);
+    this.inputLineSizeBox = newLineSizeInputBox;
+    this.bodyWrapper.appendChild(this.inputLineSizeBox);
 
-    this.inputPlayersNumberBox = newInputBox2;
+    this.inputPlayersNumberBox = newPlayersNumberBox;
     this.bodyWrapper.appendChild(this.inputPlayersNumberBox);
 
     let newResetGameButton = document.createElement("button");
@@ -105,7 +113,7 @@ class TicTacToe {
 
     //add event listeners to handle clicks for this specific game
     this.gameContainer.addEventListener("click", this.handleTurn.bind(this));
-    this.inputNumberBox.addEventListener(
+    this.inputLineSizeBox.addEventListener(
       "change",
       this.handleBoxUnits.bind(this)
     );
