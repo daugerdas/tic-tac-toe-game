@@ -59,6 +59,14 @@ class TicTacToe {
     this.arrayOfStreak = []; //array for storing indexes of boxes with winning streak
     this.board = []; //array that keeps track of the actual X and O
 
+    this.inputBoxHtmlAttributes = {
+      type: "number",
+      placeholder: 4,
+      min: 3,
+      max: 10,
+      step: 1,
+    };
+
     this.createNewBoard();
   }
 
@@ -76,15 +84,7 @@ class TicTacToe {
     let newPlayersNumberBox = document.createElement("input");
     newPlayersNumberBox.classList.add("playerNumberInput");
 
-    const attrs = {
-      type: "number",
-      placeholder: 4,
-      min: 3,
-      max: 10,
-      step: 1,
-    };
-
-    Object.entries(attrs).forEach(([key, value]) => {
+    Object.entries(this.inputBoxHtmlAttributes).forEach(([key, value]) => {
       newLineSizeInputBox.setAttribute(key, value);
       newPlayersNumberBox.setAttribute(key, value);
     });
